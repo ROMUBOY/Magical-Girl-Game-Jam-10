@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerMovementData" load_steps=2 format=3 uid="uid://8daimrjho45"]
+
+[ext_resource type="Script" path="res://platformer_player/playerMovementData.gd" id="1_r4740"]
+
+[resource]
+script = ExtResource("1_r4740")
+SPEED = 100.0
+JUMP_VELOCITY = -280.0
+jump_release_force = -150
+acceleration = 600
+friction = 600
+additional_fall_gravity = 240
+double_jump_count = 0
+climb_speed = 50

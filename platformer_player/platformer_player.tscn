@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=3 uid="uid://yl3tfpjaas7k"]
+
+[ext_resource type="Script" path="res://platformer_player/platformer_player.gd" id="1_05y1p"]
+[ext_resource type="Texture2D" uid="uid://7kg457wx771o" path="res://assets/sprites/default/tilemap-characters_packed.png" id="1_ro5ba"]
+[ext_resource type="Resource" uid="uid://8daimrjho45" path="res://platformer_player/playerMovementData.tres" id="2_jme3q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kr5u6"]
+atlas = ExtResource("1_ro5ba")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trs58"]
+atlas = ExtResource("1_ro5ba")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_103xo"]
+atlas = ExtResource("1_ro5ba")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xdsk"]
+atlas = ExtResource("1_ro5ba")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kmjts"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kr5u6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trs58")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_103xo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xdsk")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dq7jb"]
+size = Vector2(14, 18)
+
+[sub_resource type="Gradient" id="Gradient_n0gpq"]
+colors = PackedColorArray(1, 0, 0.788235, 1, 3.17663e-06, 0.65165, 0.465527, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m7nla"]
+gradient = SubResource("Gradient_n0gpq")
+width = 30
+height = 5
+
+[node name="PlatformerPlayer" type="CharacterBody2D"]
+script = ExtResource("1_05y1p")
+moveDate = ExtResource("2_jme3q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kmjts")
+animation = &"run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_dq7jb")
+
+[node name="LadderCheck" type="RayCast2D" parent="."]
+target_position = Vector2(0, 18)
+hit_from_inside = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="CoyoteJumpTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -18.5
+offset_right = 15.0
+offset_bottom = -2.5
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 10.0
+step = 0.1
+value = 10.0
+texture_progress = SubResource("GradientTexture2D_m7nla")
+
+[connection signal="timeout" from="JumpBufferTimer" to="." method="_on_jump_buffer_timer_timeout"]
+[connection signal="timeout" from="CoyoteJumpTimer" to="." method="_on_coyote_jump_timer_timeout"]

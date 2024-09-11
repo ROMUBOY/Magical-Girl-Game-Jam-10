@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0suuj4lltip5"]
+
+[ext_resource type="Script" path="res://platformer_player/shooter.gd" id="1_yh8so"]
+[ext_resource type="PackedScene" uid="uid://cwhxeemvv2dg8" path="res://platformer_player/projectile.tscn" id="2_v31gv"]
+
+[node name="Shooter" type="Node2D"]
+script = ExtResource("1_yh8so")
+projectileScene = ExtResource("2_v31gv")
